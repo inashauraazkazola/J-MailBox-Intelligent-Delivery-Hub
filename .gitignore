@@ -1,0 +1,24 @@
+.env
+.env.*
+*.db
+*.sqlite
+*.sqlite3
+certs/
+data/
+log/
+*.pem
+*.key
+*.crt
+*.p12
+passwd
+acl
+__pycache__/
+*.pyc
+
+# Generated export files
+*.pkl
+*.xlsx
+*.xls
+*.csv
+
+

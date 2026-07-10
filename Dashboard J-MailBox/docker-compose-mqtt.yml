@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: jmailbox-mosquitto-ssl
+    restart: unless-stopped
+    ports:
+      - "8883:8883"  # MQTT over SSL
+      - "8083:8083"  # WebSocket over SSL
+      - "9001:9001"  # WebSocket untuk dashboard
+    volumes:
+      - ./mosquitto_ssl.conf:/mosquitto/config/mosquitto.conf
+      - ./certs:/mosquitto/certs
+      - ./data:/mosquitto/data
+      - ./log:/mosquitto/log
+    networks:
+      - jmailbox-network
+
+  mqtt-explorer:
+    image: imthai/mqtt-explorer:latest
+    container_name: mqtt-explorer
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - mosquitto
+    networks:
+      - jmailbox-network
+
+networks:
+  jmailbox-network:
+    driver: bridge
+
+volumes:
+  mosquitto_data:
+  mosquitto_log:
